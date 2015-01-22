@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/><meta name="exporter-version" content="Evernote Mac 6.0.5 (451190)"/><meta name="altitude" content="13.00124549865723"/><meta name="author" content="dstop75@gmail.com"/><meta name="created" content="2015-01-21 21:59:36 +0000"/><meta name="latitude" content="42.34900726053183"/><meta name="longitude" content="-71.05020654639605"/><meta name="source" content="desktop.mac"/><meta name="updated" content="2015-01-22 03:57:31 +0000"/><title>Create a “cars” app for Rails</title></head><body>
+<div><span style="font-family: Arial;">Useful References:</span></div>
+<ul>
+<li><a href="https://github.com/ga-wdi-boston/wdi_2_rails_demo_simple">https://github.com/ga-wdi-boston/wdi_2_rails_demo_simple</a></li>
+<li><a href="http://guides.rubyonrails.org/">http://guides.rubyonrails.org/</a><br/></li>
+</ul>
+<div><br/></div>
+<div><span style="font-family: Arial;">Create a skeleton of your app with lots of files and info done for you, including what you need to use the postgres database, by running the following rails new application generator script.  We will need to create our own specific Model, View, and Controller later, but Rails will provide the foundation of a fresh application for us and save us a lot of time and trouble.  Go to your terminal and type:</span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">     rails new cars_app —database=postgresql</span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">     cd cars_app</span></span><span style="font-family: 'Courier New';"><br/></span></div>
+<div><span style="font-family: Arial;">Your working directory is now our new Rails application.  Open your project in Sublime (from terminal) and checkout all the files and folders that you didn't need to create!:</span></div>
+<div><span style="font-family: 'Courier New';">     <span style="font-size: 13px;"><span style="font-family: Courier;">subl .</span></span></span></div>
+<div><span style="font-family: Arial;">Go back to the terminal and start your server:</span></div>
+<div>          <span style="font-size: 13px;"><span style="font-family: Courier;">rails server</span></span></div>
+<div><span style="font-family: Courier;"><span style="font-size: 13px;">     ctrl-c</span> <span style="font-family: Arial;">*if you ever want to stop the rails server</span></span></div>
+<div>          <font face="Courier"><span style="font-size: 13px;">rails server</span> <span style="font-family: Arial;">*or</span> <span style="font-size: 13px;">rails s</span> <span style="font-family: Arial;">*if you </span><span style="font-family: Arial;"><span style="line-height: 18px;">want to start the server again</span></span></font><span style="font-size: 13px;"><span style="font-family: Courier;"><br/></span></span></div>
+<div><span style="font-family: Courier;"><span style="font-size: 13px;">     command-tab</span> <span style="font-family: Arial;">*to open another terminal window</span></span></div>
+<div><span style="font-family: Courier;"><span style="font-size: 13px;">     command-shift-arrow</span> <span style="font-family: Arial;">*to switch between terminal windows</span></span></div>
+<div><span style="font-family: Arial;">Open your web browser and check your progress:</span></div>
+<div>          <a href="http://localhost:3000/">http://localhost:3000/</a></div>
+<div><span style="font-family: Arial;">Notice that there is no database yet, let’s create it:</span></div>
+<div>          <span style="font-size: 13px;"><span style="font-family: Courier;">rake db:create</span></span></div>
+<div><span style="font-family: Arial;">See if you can query the database now:</span></div>
+<div>          <a href="http://localhost:3000/">http://localhost:3000/cars</a></div>
+<div><span style="font-family: Arial;">Notice the error message:</span></div>
+<div>          <span style="font-family: Arial;">“No route matches [GET] “/cars”"</span></div>
+<div><span style="font-family: Arial;">This means that the Rails server has received a request to GET the cars resource, but the Router doesn't know the route to complete the request. Create a route to handle this. Go to your project in Sublime, open config/routes.rb and add:</span></div>
+<div>          <span style="font-size: 13px;"><span style="font-family: Courier;">get ‘cars’, to: ‘cars#index'</span></span></div>
+<div><font face="Arial">This says, <span style="line-height: 18px;">“</span>If you receive a get cars request, route it to the Cars controller and run the index action.<span style="line-height: 18px;">”</span>  Now create the Cars controller:</font></div>
+<div><span style="font-size: 13px;"><span style="font-family: Arial;">          <span style="font-family: Courier;">touch app/controllers/cars_controller.rb</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">     subl app/controllers/cars_controller.rb</span></span></div>
+<div><span style="font-family: Arial;">Add this code to the file:</span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">     class CarsController &lt; ApplicationController</span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">          def index</span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">          end</span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">     end</span></span></div>
+<div><span style="font-family: Courier;"><span style="font-family: Arial;">The CarsController class inherits from the ApplicationController, which Rails already wrote for us!  We will fill in the index method a little bit later. Check your progress again:</span></span></div>
+<div>          <a href="http://localhost:3000/">http://localhost:3000/</a></div>
+<div><font face="Arial">Notice the View template file is missing.  We can’t see any cars because we have no view to generate the html that shows our cars (we also haven’t added any cars to the database, but we’re getting closer.)  Rails is picky about conventions (it is said to be ‘opinionated’), and so, in generalized form, the View needs to be in<span style="box-sizing: border-box; orphans: auto; text-align: start; text-indent: 0px; widows: auto; background-color: rgb(255, 255, 255);"><font color="#333333">: app/views/</font><b style="color: rgb(51, 51, 51); font-style: normal; font-variant: normal; letter-spacing: normal; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><i>resource</i></b><font color="#333333">/</font><i style="color: rgb(51, 51, 51); font-style: normal; font-variant: normal; letter-spacing: normal; text-transform: none; white-space: normal; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><b>action</b></i><font color="#333333">.html.erb.  Let’s make the View for our specific project. In Sublime, create a cars directory in app/views (app/views/cars).  Now create </font></span></font><font color="#333333" face="Arial">index.html.erb in this new directory.  Put some text of your choice in there, check your progress, see your text in the browser, and rejoice:</font></div>
+<div>          <a href="http://localhost:3000/">http://localhost:3000/</a></div>
+<div>Generate a file that can be used to create a table of cars:</div>
+<div>          <span style="font-size: 13px;"><span style="font-family: Courier;">rails generate migration CreateCars make:string model:string year:integer</span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">     rake db:migrate</span></span></div>
+<div><span style="font-family: Arial;">Create a Model to access the cars table:</span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">     touch app/models/car.rb</span></span></div>
+<div><span style="font-family: Arial;">Note that </span><span style="font-size: 13px;"><span style="font-family: Courier;">car</span></span> <span style="font-family: Arial;">must be singular here!  It's a single Model of a car record in the database. /cars.rb will <i>not</i> work. Rails is <i>opinionated</i>. This is a good thing. Open this file and add:</span><span style="font-size: 13px;"><span style="font-family: Courier;"><br/></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">     class Car &lt; ActiveRecord::Base</span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">     end</span></span></div>
+<div><font face="Arial">Easy! Now let’s populate the database with some cars.  In db/seeds.rb, add:</font></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">     1.upto(5) do |num|</span></span></div>
+<div><font face="Courier"><span style="font-size: 13px;">          Car.create(make: </span><span style="font-size: 13px; line-height: 18px;">“</span><span style="font-size: 13px;">Make_#{num}</span><span style="font-size: 13px; line-height: 18px;">”</span><span style="font-size: 13px;">, model: </span><span style="font-size: 13px; line-height: 18px;">“</span><span style="font-size: 13px;">Model_#{num}, year 2010 + num)</span></font></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">     end</span></span></div>
+<div><span style="font-family: Arial;">In terminal:</span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">     rake db:seed</span></span></div>
+<div><span style="font-family: Arial;">Let’s allow our Cars Controller to access all the cars we’ve created in the database.  Go back to the app/controllers/cars_controller.rb file and modify it like so:</span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">     class CarsController &lt; ApplicationController</span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">          def index</span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">               @cars = Car.all</span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">          end</span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">     end</span></span></div>
+<div><span><font face="Arial">Write a little </font></span><span style="color: rgb(51, 51, 51); font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; white-space: normal; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; float: none; background-color: rgb(255, 255, 255);">eRuby (Embedded Ruby)</span> <span><font face="Arial">in the View, to display our cars:</font></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;"><span>     &lt;h2&gt;Cars&lt;/h2&gt;</span></span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">       &lt;ul&gt;</span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">        &lt;% @cars.each do |car| %&gt;</span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">         &lt;li&gt;&lt;%="Make: #{car.make}, Model: #{car.model}, Year: #{car.year}"%&gt;&lt;/li&gt;</span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">         &lt;% end %&gt;</span></span></div>
+<div><span style="font-size: 13px;"><span style="font-family: Courier;">     &lt;/ul&gt;</span></span></div>
+<div><span style="font-family: Arial;">Done for now! Whew.  Go back to the browser and marvel at your accomplishment (and Rails'):</span></div>
+<div>          <a href="http://localhost:3000/">http://localhost:3000/</a></div>
+<div><br/></div>
+</body></html>
